@@ -2901,3 +2901,4 @@ That's it! I hope you enjoyed reading this article.
 *   [Health monitoring](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/monitor-app-health)
 *   [Testing ASP.NET Core services](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/test-aspnet-core-services-web-apps)
 *   [Multistage build](https://docs.microsoft.com/en-us/visualstudio/containers/container-build?view=vs-2019#multistage-build)
+
