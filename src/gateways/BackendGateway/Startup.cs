@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Middleware;
+using MongoDB.Driver;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System;
@@ -36,10 +37,11 @@ public class Startup(IConfiguration configuration)
 
         services.AddHealthChecks()
             .AddMongoDb(
-                mongodbConnectionString: (
-                    Configuration.GetSection("mongo").Get<MongoOptions>()
-                    ?? throw new Exception("mongo configuration section not found")
-                ).ConnectionString,
+                sp => new MongoClient(
+                    (Configuration.GetSection("mongo").Get<MongoOptions>()
+                     ?? throw new Exception("mongo configuration section not found")
+                    ).ConnectionString
+                ).GetDatabase("admin"),
                 name: "mongo",
                 failureStatus: HealthStatus.Unhealthy
             );

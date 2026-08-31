@@ -35,10 +35,8 @@ public class Startup(IConfiguration configuration)
         });
         services.AddHealthChecks()
             .AddMongoDb(
-                mongodbConnectionString: (
-                    Configuration.GetSection("mongo").Get<MongoOptions>()
-                    ?? throw new Exception("mongo configuration section not found")
-                ).ConnectionString,
+                sp => sp.GetService<IMongoDatabase>()
+                      ?? throw new Exception("IMongoDatabase not found"),
                 name: "mongo",
                 failureStatus: HealthStatus.Unhealthy
             );

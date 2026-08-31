@@ -59,12 +59,14 @@ public class Startup(IConfiguration configuration)
             });
         });
 
+        // AspNetCore.HealthChecks.MongoDb 9.x eliminó la sobrecarga que recibía el
+        // connection string. La API actual espera un factory de IMongoDatabase, así que
+        // se reutiliza la instancia ya registrada por AddMongoDb(Configuration) en lugar
+        // de volver a parsear la cadena de conexión.
         services.AddHealthChecks()
             .AddMongoDb(
-                mongodbConnectionString: (
-                  Configuration.GetSection("mongo").Get<MongoOptions>()
-                  ?? throw new Exception("mongo configuration section not found")
-                ).ConnectionString,
+                sp => sp.GetService<IMongoDatabase>()
+                      ?? throw new Exception("IMongoDatabase not found"),
                 name: "mongo",
                 failureStatus: HealthStatus.Unhealthy
             );

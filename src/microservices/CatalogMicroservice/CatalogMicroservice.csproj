@@ -15,14 +15,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="8.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="8.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="8.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="9.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
-    <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.11.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <!--
+    Remediación de vulnerabilidades (referencias directas que elevan transitivas).
+    Una PackageReference directa gana sobre la resolución transitiva de NuGet.
+      System.Text.Json 8.0.0 -> 8.0.6   CVE-2024-30105, CVE-2024-43485 (HIGH, DoS)
+      M.E.Caching.Memory 8.0.0 -> 8.0.1 CVE-2024-43483 (HIGH, hash flooding)
+      KubernetesClient 15.0.1 -> 17.0.14 CVE-2025-9708 (MEDIUM, validación de CA).
+        Llega vía AspNetCore.HealthChecks.UI, que en su versión 9.0.0 más reciente
+        sigue resolviendo la 15.0.1. Se eleva al mínimo parcheado que mantiene net8.0.
+  -->
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="KubernetesClient" Version="17.0.14" />
   </ItemGroup>
 
   <ItemGroup>
