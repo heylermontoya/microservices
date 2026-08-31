@@ -1,0 +1,103 @@
+name: ci
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  # ---------------------------------------------------------------
+  # Compila y ejecuta los tests unitarios de toda la solución.
+  # Unifica los antiguos build.yml y test.yml: dotnet test ya compila,
+  # así que tenerlos separados repetía checkout, restore y build.
+  # ---------------------------------------------------------------
+  build-test:
+    name: Compilar y testear
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      - name: Restaurar dependencias
+        run: dotnet restore store.sln
+
+      - name: Compilar
+        run: dotnet build store.sln --no-restore --configuration Release
+
+      - name: Ejecutar tests
+        run: dotnet test store.sln --no-build --configuration Release --verbosity normal
+
+  # ---------------------------------------------------------------
+  # Gate de seguridad. Falla el pipeline si aparece cualquier
+  # vulnerabilidad CRITICAL o HIGH en las dependencias.
+  #
+  # Corre en paralelo al build y NO compila a propósito: sin bin/ ni
+  # obj/ en el árbol, Trivy solo encuentra packages.lock.json y lee el
+  # grafo completo de dependencias. Si compilase antes, leería también
+  # los deps.json generados y duplicaría los hallazgos.
+  # ---------------------------------------------------------------
+  security:
+    name: Gate de seguridad (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Equivale a:
+      #   trivy fs --scanners vuln --severity CRITICAL,HIGH \
+      #            --skip-dirs bin --skip-dirs obj --exit-code 1 .
+      - name: CRITICAL y HIGH (bloqueante)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: src/microservices/CatalogMicroservice
+          scanners: vuln
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+          skip-dirs: 'src/microservices/CatalogMicroservice/bin,src/microservices/CatalogMicroservice/obj'
+          format: table
+
+      # Equivale a:
+      #   trivy fs --scanners vuln --skip-dirs bin --skip-dirs obj .
+      # Sin --severity, Trivy usa su valor por defecto: todos los niveles.
+      # No bloquea; sirve para ver el estado completo en el log.
+      - name: Todas las severidades (informativo)
+        if: always()
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: src/microservices/CatalogMicroservice
+          scanners: vuln
+          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+          exit-code: '0'
+          skip-dirs: 'src/microservices/CatalogMicroservice/bin,src/microservices/CatalogMicroservice/obj'
+          format: table
+
+  # ---------------------------------------------------------------
+  # Inventario de dependencias en formato CycloneDX, publicado como
+  # artefacto de la ejecución para trazabilidad de la cadena de
+  # suministro.
+  # ---------------------------------------------------------------
+  sbom:
+    name: Generar SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generar SBOM CycloneDX
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: src/microservices/CatalogMicroservice
+          format: cyclonedx
+          output: sbom-catalog.cdx.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom-catalog
+          path: sbom-catalog.cdx.json
+          retention-days: 30
