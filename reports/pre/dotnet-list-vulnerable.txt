@@ -1,0 +1,18 @@
+  Determinando los proyectos que se van a restaurar...
+  Se ha restaurado C:\Users\EL SOL\Desktop\pruebaTecnica\microservices\src\middlewares\Middleware\Middleware.csproj (en 281 ms).
+  Se ha restaurado C:\Users\EL SOL\Desktop\pruebaTecnica\microservices\src\microservices\CatalogMicroservice\CatalogMicroservice.csproj (en 281 ms).
+
+Se han usado los orígenes siguientes:
+   https://api.nuget.org/v3/index.json
+   C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+
+El proyecto "CatalogMicroservice" tiene los paquetes vulnerables siguientes
+   [net8.0]: 
+   Paquete transitivo                         Resuelto   Gravedad   Dirección URL de asesoría                        
+   > KubernetesClient                         12.1.1     Moderate   https://github.com/advisories/GHSA-w7r3-mgwf-4mqq
+   > Microsoft.Extensions.Caching.Memory      8.0.0      High       https://github.com/advisories/GHSA-qj66-m88j-hmgj
+   > SharpCompress                            0.30.1     Moderate   https://github.com/advisories/GHSA-6c8g-7p36-r338
+   > Snappier                                 1.0.0      High       https://github.com/advisories/GHSA-pggp-6c3x-2xmx
+   > System.Text.Json                         8.0.0      High       https://github.com/advisories/GHSA-hh2w-p6rv-4g7w
+                                                         High       https://github.com/advisories/GHSA-8g4q-xg66-9fp4
+

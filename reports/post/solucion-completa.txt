@@ -1,0 +1,49 @@
+
+Report Summary
+
+┌──────────────────────────────────────────────────────────────────────────────────┬─────────────┬─────────────────┐
+│                                      Target                                      │    Type     │ Vulnerabilities │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/gateways/BackendGateway/bin/Debug/net8.0/BackendGateway.deps.json            │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/gateways/FrontendGateway/bin/Debug/net8.0/FrontendGateway.deps.json          │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/microservices/CartMicroservice/bin/Debug/net8.0/CartMicroservice.deps.json   │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/microservices/CatalogMicroservice/bin/Debug/net8.0/CatalogMicroservice.deps- │ dotnet-core │        0        │
+│ .json                                                                            │             │                 │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/microservices/CatalogMicroservice/packages.lock.json                         │    nuget    │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/microservices/IdentityMicroservice/bin/Debug/net8.0/IdentityMicroservice.de- │ dotnet-core │        0        │
+│ ps.json                                                                          │             │                 │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/middlewares/Middleware/bin/Debug/net8.0/Middleware.deps.json                 │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/middlewares/Middleware/packages.lock.json                                    │    nuget    │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/uis/Backend/bin/Debug/net8.0/Backend.deps.json                               │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ src/uis/Frontend/bin/Debug/net8.0/Frontend.deps.json                             │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ tests/CartMicroservice.UnitTests/bin/Debug/net8.0/CartMicroservice.UnitTests.de- │ dotnet-core │        0        │
+│ ps.json                                                                          │             │                 │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ tests/CartMicroservice.UnitTests/bin/Debug/net8.0/CartMicroservice.deps.json     │ dotnet-core │        0        │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ tests/CatalogMicroservice.UnitTests/bin/Debug/net8.0/CatalogMicroservice.UnitTe- │ dotnet-core │        0        │
+│ sts.deps.json                                                                    │             │                 │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ tests/CatalogMicroservice.UnitTests/bin/Debug/net8.0/CatalogMicroservice.deps.j- │ dotnet-core │        0        │
+│ son                                                                              │             │                 │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ tests/IdentityMicroservice.UnitTests/bin/Debug/net8.0/IdentityMicroservice.Unit- │ dotnet-core │        0        │
+│ Tests.deps.json                                                                  │             │                 │
+├──────────────────────────────────────────────────────────────────────────────────┼─────────────┼─────────────────┤
+│ tests/IdentityMicroservice.UnitTests/bin/Debug/net8.0/IdentityMicroservice.deps- │ dotnet-core │        0        │
+│ .json                                                                            │             │                 │
+└──────────────────────────────────────────────────────────────────────────────────┴─────────────┴─────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
