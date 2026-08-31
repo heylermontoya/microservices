@@ -17,9 +17,9 @@ jobs:
     name: Compilar y testear
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.x
 
@@ -45,13 +45,13 @@ jobs:
     name: Gate de seguridad (Trivy)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Equivale a:
       #   trivy fs --scanners vuln --severity CRITICAL,HIGH \
       #            --skip-dirs bin --skip-dirs obj --exit-code 1 .
       - name: CRITICAL y HIGH (bloqueante)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: src/microservices/CatalogMicroservice
@@ -67,7 +67,7 @@ jobs:
       # No bloquea; sirve para ver el estado completo en el log.
       - name: Todas las severidades (informativo)
         if: always()
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: src/microservices/CatalogMicroservice
@@ -86,17 +86,17 @@ jobs:
     name: Generar SBOM
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Generar SBOM CycloneDX
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           scan-ref: src/microservices/CatalogMicroservice
           format: cyclonedx
           output: sbom-catalog.cdx.json
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: sbom-catalog
           path: sbom-catalog.cdx.json
